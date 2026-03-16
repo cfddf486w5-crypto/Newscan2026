@@ -1,0 +1,10 @@
+{
+  "name": "Newscan 2026",
+  "short_name": "Newscan",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#d5ebff",
+  "theme_color": "#8dc4ff",
+  "description": "Préparation de commandes via scan USB et import Excel.",
+  "icons": []
+}

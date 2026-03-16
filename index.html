@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#8dc4ff" />
+    <title>Newscan 2026 - Préparation de commande</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <h1>Newscan 2026</h1>
+      <p>Scanner vos articles et préparer votre demande de création de commande.</p>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>1) Import Excel</h2>
+        <p class="hint">Colonnes attendues (ordre libre): code barre, produit, location, qty.</p>
+        <input id="excelFile" type="file" accept=".xlsx,.xls,.csv" />
+        <div class="row actions">
+          <button id="clearInventory" class="secondary">Effacer le stock importé</button>
+        </div>
+        <p id="inventoryStatus" class="status"></p>
+      </section>
+
+      <section class="card">
+        <h2>2) Scanner USB</h2>
+        <p class="hint">Le scanner USB agit comme un clavier. Scannez puis appuyez sur Entrée.</p>
+        <div class="scanner-box">
+          <label for="scanInput">Code barre</label>
+          <input id="scanInput" type="text" autocomplete="off" placeholder="Prêt pour le scan..." />
+          <div class="row actions">
+            <button id="addManual">Ajouter</button>
+            <button id="focusScan" class="secondary">Focus scanner</button>
+          </div>
+        </div>
+        <p id="scanStatus" class="status"></p>
+      </section>
+
+      <section class="card full-width">
+        <h2>3) Liste de demande de commande</h2>
+        <div class="row actions">
+          <button id="exportCsv">Exporter CSV</button>
+          <button id="clearRequest" class="danger">Vider la demande</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Code barre</th>
+                <th>Produit</th>
+                <th>Location</th>
+                <th>Qty demandée</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="requestBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
