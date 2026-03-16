@@ -186,17 +186,19 @@ function exportRequestCsv() {
     return;
   }
 
+  const delimiter = ';';
   const headers = ['barcode', 'product', 'location', 'requested_qty'];
   const csv = [
-    headers.join(','),
+    'sep=;',
+    headers.join(delimiter),
     ...lines.map((line) =>
       [line.barcode, line.product, line.location, line.requestedQty]
         .map((value) => `"${String(value || '').replaceAll('"', '""')}"`)
-        .join(',')
+        .join(delimiter)
     ),
   ].join('\n');
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
