@@ -1,0 +1,139 @@
+:root {
+  --bg: linear-gradient(145deg, #e9f4ff 0%, #d5ebff 55%, #c5e1ff 100%);
+  --card: #ffffffdd;
+  --text: #12324f;
+  --accent: #1577d1;
+  --accent-dark: #0f5d9d;
+  --danger: #d13d3d;
+  --border: #b8d9f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.hero {
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.layout {
+  width: min(1100px, 94vw);
+  margin: 0 auto 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 10px 30px #3a7ab21f;
+  backdrop-filter: blur(8px);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.hint {
+  margin-top: -0.35rem;
+  color: #305675;
+}
+
+input[type='file'],
+input[type='text'] {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #f8fcff;
+}
+
+.scanner-box {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions {
+  margin-top: 0.8rem;
+}
+
+button {
+  border: 0;
+  background: var(--accent);
+  color: white;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button.secondary {
+  background: #649bcf;
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+.status {
+  min-height: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.table-wrap {
+  overflow: auto;
+  margin-top: 0.7rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #d9e9f8;
+  text-align: left;
+  padding: 0.6rem;
+}
+
+.qty-cell {
+  width: 120px;
+}
+
+.inline-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+}
