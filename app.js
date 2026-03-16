@@ -33,6 +33,11 @@ function findColumnIndex(headers, possibilities) {
   return headers.findIndex((header) => possibilities.some((alias) => header.includes(alias)));
 }
 
+function readCell(row, index) {
+  if (index < 0) return '';
+  return String(row[index] || '').trim();
+}
+
 function saveState() {
   localStorage.setItem(STORAGE_KEYS.inventory, JSON.stringify(state.inventory));
   localStorage.setItem(STORAGE_KEYS.request, JSON.stringify(state.request));
@@ -62,15 +67,29 @@ function parseWorkbook(file) {
     }
 
     const headers = rows[0].map(normalizeHeader);
-    const barcodeIdx = findColumnIndex(headers, ['code barre', 'codebarre', 'barcode', 'ean', 'upc']);
-    const productIdx = findColumnIndex(headers, ['produit', 'product', 'article', 'designation', 'nom']);
-    const locationIdx = findColumnIndex(headers, ['location', 'emplacement', 'bin', 'zone']);
+    const barcodeIdx = findColumnIndex(headers, ['barcode_1', 'code barre', 'codebarre', 'barcode', 'ean', 'upc']);
+    const productNumberIdx = findColumnIndex(headers, [
+      'textbox6',
+      'numero de produit',
+      'numéro de produit',
+      'produit',
+      'product',
+      'article',
+      'designation',
+      'nom',
+      'title',
+      'titre',
+    ]);
+    const shortDescIdx = findColumnIndex(headers, ['shortdesc', 'description courte']);
+    const docNumberIdx = findColumnIndex(headers, ['docnumber', 'document']);
+    const longDescIdx = findColumnIndex(headers, ['description']);
+    const locationIdx = findColumnIndex(headers, ['locationid', 'location', 'emplacement', 'bin', 'zone']);
     const qtyIdx = findColumnIndex(headers, ['qty', 'quantite', 'quantité', 'quantity', 'stock']);
 
-    if ([barcodeIdx, productIdx, locationIdx, qtyIdx].includes(-1)) {
+    if (barcodeIdx === -1 || locationIdx === -1) {
       setStatus(
         elements.inventoryStatus,
-        'Colonnes introuvables. Vérifiez: code barre, produit, location, qty.',
+        'Colonnes introuvables. Vérifiez au minimum: barcode_1 (code barre) et locationId.',
         true
       );
       return;
@@ -79,14 +98,25 @@ function parseWorkbook(file) {
     const inventory = {};
 
     rows.slice(1).forEach((row) => {
-      const barcode = String(row[barcodeIdx] || '').trim();
+      const barcode = readCell(row, barcodeIdx);
       if (!barcode) return;
+
+      const productNumber = readCell(row, productNumberIdx);
+      const shortDescription = readCell(row, shortDescIdx);
+      const longDescription = readCell(row, longDescIdx);
+      const documentNumber = readCell(row, docNumberIdx);
+
+      const productLabel =
+        productNumber || shortDescription || longDescription || documentNumber || readCell(row, productNumberIdx);
 
       inventory[barcode] = {
         barcode,
-        product: String(row[productIdx] || '').trim(),
-        location: String(row[locationIdx] || '').trim(),
-        qty: Number(row[qtyIdx] || 0),
+        product: productLabel,
+        location: readCell(row, locationIdx),
+        qty: Number(readCell(row, qtyIdx) || 0),
+        shortDescription,
+        longDescription,
+        documentNumber,
       };
     });
 

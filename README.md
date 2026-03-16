@@ -1,7 +1,7 @@
 # Newscan 2026
 
 Application PWA HTML pour :
-- importer un fichier Excel (`.xlsx`, `.xls`, `.csv`) avec colonnes `code barre`, `produit`, `location`, `qty` (ordre libre),
+- importer un fichier Excel (`.xlsx`, `.xls`, `.csv`) avec colonnes `barcode_1`, `textbox6`, `shortdesc`, `docNumber`, `description`, `locationId` (ordre libre, `qty` optionnelle),
 - scanner des articles via scanner USB (mode clavier),
 - constituer une liste de demande de commande,
 - exporter la demande en CSV,
